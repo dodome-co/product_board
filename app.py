@@ -1,26 +1,16 @@
 import random
 
-from flask import Flask
+from flask import Flask, render_template
 
-omikujis = ["大吉", "中吉", "小吉", "吉", "凶"]
+# まだデータベースが無いので、Python のリストで仮のデータを用意する
+PRODUCTS = [
+    {"name": "りんご（ふじ）", "price": 300, "producer_name": "高橋農園"},
+    {"name": "八幡平マッシュルーム", "price": 450, "producer_name": "松尾きのこ園"},
+    {"name": "ほうれん草", "price": 150, "producer_name": "西根ファーム"},
+]
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def index():
-    return "<h2>スパルタキャンプ掲示板</h2><p>宿題忘れないで！</p>"
-
-
-# control sできれいになおす。
-
-@app.route("/hello/<name>")
-def hello(name):
-    return f"<p>こんにちは{name}</p>"
-
-
-@app.route("/omikuji")
-def omikuji():#()に入れるとエラーになる
-    #omikujis = ["大吉", "中吉", "小吉", "吉", "凶"] この中でしか使わない場合はOK。必要があるところに書く方が好まれる
-    unsei = random.choice(omikujis)
-    return f"<p>あなたの運勢は{unsei}です</p>"
+    return render_template("products/index.html",products=PRODUCTS)
